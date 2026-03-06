@@ -77,10 +77,77 @@ public class Menu {
 		System.out.println("TO DO: add projections for various environmental things such as sea level, ocean temp etc.");
 	}
 	
-	// TODO
 	public static void equity() {
-		System.out.println("TO DO: highlight things like redlining, inequal burdens, responsible parties not paying the price.");
-		System.out.println("Maybe as a quiz or something interactive?");
+		String[] questions = {
+			"""
+			1. What demographic is responsible for the largest share of global greenhouse gas emissions?	
+				a. The lowest income 50% (globally)
+				b. The wealthiest 10% globally
+				c. Indigenous peoples
+				d. Middle-income households in developing nations?
+			""",
+			"""
+			2. What area is most affected by rising sea levels despite having historically minimal carbon footprints?
+				a. coastal cities in the US and Europe
+				b. landlocked nations
+				c. small island developing states
+				d. nations closest to the north and south poles
+			""",
+			"""
+			3. Racism has made minorities and the poor bear a higher cost for climate change"
+				a. True
+				b. False			
+			""",
+			"""
+			4. In many urban areas, which neighborhoods generally experience the highest temperatures due to the urban heat island effect?
+				a. suburbs
+				b. wealthy areas in the city
+				c. commercial districts
+				d. historically marginalized and lower-income neighborhoods				
+			""",
+			"""
+			5. How do changing weather patterns disproportionately affect smallholder farmers in the Global South?
+				a. They benefit from longer growing seasons and increased crop yields
+				b. They rely on rain rather than irrigation thus changing weather reduces crop yields
+				c. They are able to purchase modern equipment and seeds which offsets any loss in production
+				d. They recieve subsidies from wealthy nations to offest their lower yields
+			"""
+			
+		};
+		String[] answers = {"b","c","a","d","b"};
+		int correct = 0;
+		double percentage;
+		String response;
+		
+		wrapText("center","Welcome to the climate change equity quiz (5 questions)!","Answer with a,b,c or d");
+		
+		//Did not test thoroughly test this loop, only used lowercase letters
+		for (int i = 0; i < 5; i++) {			
+			while (true) {
+				// loop until a valid answer is given
+				System.out.print(questions[i]); //newline is in question so don't use println
+				response = scnr.next().toLowerCase();
+				System.out.println(response);
+				if (response.equals("a") || response.equals("b") || response.equals("c") || response.equals("d")) {
+					if (response.equals(answers[i])) {
+						correct++;
+						System.out.println("Correct!");
+					}
+					else {
+						System.out.println("Incorrect, the right answer was " + answers[i]);
+					}
+					break;
+				}
+				else {
+					System.out.println("All questions should be answered with a,b,c or d");
+				}
+			}
+		}
+		// Could add different response based on the score
+		percentage = 100.0 * (correct/5.0);
+		System.out.println("You got %" + percentage + " of questions correct!\n");
+		printOptions();
+		scnr.nextLine();
 	}
 	
 	// TODO Join
