@@ -115,7 +115,7 @@ public class Menu {
 	}
 	private static void pause() {
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(0);
 		}
 		catch (InterruptedException ex) {
 			Thread.currentThread().interrupt();
@@ -498,7 +498,7 @@ public class Menu {
 			"""
 			
 		};
-		String[] answers = { "b", "c", "a", "d", "b" };
+		String[] answers = { "a", "c", "a", "d", "b" };
 		int correct = 0;
 		String response;
 		
@@ -506,7 +506,7 @@ public class Menu {
 		wrapText(
 			"center",
 			"Welcome to the climate change equity quiz (5 questions)!",
-			"Answer with (a) (b) (c) or (d). Press e to exit."
+			"Answer with (a) (b) (c) or (d). Press x to exit."
 		);
 
 		//Did not test thoroughly test this loop, only used lowercase letters
@@ -540,6 +540,9 @@ public class Menu {
 						}
 						invalid = false;
 						break;
+					case "x":
+						printOptions();
+						return;
 					default:
 						System.out.println("Invalid answer.");
 						if (i == 2) {
@@ -555,6 +558,7 @@ public class Menu {
 
 		user.percentage = 100.0 * (correct/5.0);
 		System.out.println("You got " + user.percentage + "% of questions correct!\n");
+		pause();
 		printOptions();
 	}
 
@@ -562,7 +566,7 @@ public class Menu {
 	// This shows a few local and online conservation groups and simulates joining
 	public static void join(Scanner scnr) {
 
-		int input;
+		String input;
 		Group group;
 		String[] groups = {
 			"1. Snohomish Conservation District",
@@ -605,20 +609,23 @@ public class Menu {
 				System.out.println(g);
 			}
 			System.out.print("\n> ");
-			input = scnr.nextInt();
+			input = scnr.next().toLowerCase();
 			scnr.nextLine(); // Clears buffer
 			// Get group Enum based on input
+
 			switch (input) {
-				case 1:
+				case "1":
 					group = Group.SCD;
 					break;
-				case 2:
+				case "2":
 					group = Group.ASF;
 					break;
-				case 3:
+				case "3":
 					group = Group.EAW;
 					break;
-				case 4:
+				case "4":
+				case "exit":
+				case "x":
 					System.out.print("\n");
 					System.out.println("Exiting Groups...");
 					printOptions();
@@ -635,11 +642,11 @@ public class Menu {
 			while (true) {
 				System.out.println("Type (1) to join or leave, or (0) to return.");
 				System.out.print("> ");
-				input = scnr.nextInt();
+				input = scnr.next().toLowerCase();
 				scnr.nextLine(); // Clears buffer
 				
 				// Valid responses, exits loop with break
-				if (input == 1) {
+				if ("1".equals(input)) {
 					// Get bit at current index
 					int bit = 1 << group.index;
 					// Bit flip
@@ -652,7 +659,7 @@ public class Menu {
 					}
 					break;
 				}
-				else if (input == 0) {
+				else if ("0".equals(input)) {
 					break;
 				}
 				

@@ -46,7 +46,7 @@ public class MenuTest {
 		return new TestResult("Garbage Inputs Test",passed,errorMsg); 
 		
 	}
-	// end to end test of personalImpact method
+	// test personalImpact method calculation
 	public static TestResult personalImpactTest() {
 		
 		startOutputCapture();
@@ -64,10 +64,45 @@ public class MenuTest {
 				+ "x\n");		
 		Menu.personalImpact(testScnr);
 		String output = stopOutputCapture();
-		System.out.println(output);
-		boolean passed = output.contains("Thanks for using the app, Goodbye test!");
-		String errorMsg = passed ? "" : "Did not find the goodbye message.";
-		return new TestResult("Immediate Exit Test",passed,errorMsg);
+		boolean passed = output.contains("37,636 pounds");
+		String errorMsg = passed ? "" : "Calculation did not result in 37,636 pounds";
+		return new TestResult("Personal Impact Calculation Test",passed,errorMsg);
+	}
+	
+	// test equity quiz result
+	public static TestResult equityQuizTest() {
+		
+		startOutputCapture();
+		Scanner testScnr  = new Scanner(
+				"test\n"
+				+ "a\n"
+				+ "c\n"
+				+ "b\n"
+				+ "d\n"
+				+ "b\n"
+				+ "x\n");		
+		Menu.equity(testScnr);
+		String output = stopOutputCapture();
+		boolean passed = output.contains("You got 80.0% of questions correct!");
+		String errorMsg = passed ? "" : "Did not get right score on the test, check answer key and questions";
+		return new TestResult("Equity Quiz Result Test",passed,errorMsg);
+	}
+	
+	// test group join function
+public static TestResult joinGroupTest() {
+		
+		startOutputCapture();
+		Scanner testScnr  = new Scanner(
+				"test\n"
+				+ "1\n"
+				+ "1\n"
+				+ "4\n"
+				+ "x\n");		
+		Menu.join(testScnr);
+		String output = stopOutputCapture();
+		boolean passed = output.contains("You have joined Snohomish Conservation District!");
+		String errorMsg = passed ? "" : "Did not join the correct group";
+		return new TestResult("Join Group Test",passed,errorMsg);
 	}
 		
 
@@ -84,6 +119,8 @@ public class MenuTest {
 		testResults[0] = immediateExitTest();
 		testResults[1] = garbageInputsMainMenu();
 		testResults[2] = personalImpactTest();
+		testResults[3] = equityQuizTest();
+		testResults[4] = joinGroupTest();
 		for (TestResult result : testResults) {
 			result.print();
 			if (result.isPassed()) {
