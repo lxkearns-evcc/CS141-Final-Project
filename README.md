@@ -4,8 +4,7 @@ A Java-based, interactive console application designed to educate users about cl
 
 ## 🌍 Overview
 
-This tool provides a personalized, menu-driven experience. As you navigate through the app, it tracks your profile, including your carbon footprint, your score on the climate equity quiz, and the conservation groups you have chosen to "join.". It runs as a command line app through the shell.
-
+This tool provides a personalized, menu-driven experience. As you navigate through the app, it tracks your profile, including your carbon footprint, your score on the climate equity quiz, and the conservation groups you have chosen to "join.".
 ## ✨ Features
 
 * **Dynamic User Dashboard:** Automatically updates and displays your username, quiz scores, carbon footprint, and joined groups at the top of the main menu.
@@ -61,5 +60,6 @@ Upon launching the application, you will be prompted to enter your name. After t
 * `MenuTests & TestResults` **Testing:** Unit test framework that collects test results in an array of objects and allows for easy summarization.
 
 ---
+
 
 
