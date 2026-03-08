@@ -330,7 +330,7 @@ public class Menu {
 			String.format("%,.1f", user.totalCBFP / POUNDS_PER_METRIC_TONNE) + " metric tons of carbon-dioxide equivalant per year.",
 			"An average of " + String.format("%,.0f", user.totalCBFP / POUNDS_PER_TREE) + " trees planted are required to offset this emission."
 		);
-
+		pause();
 		printOptions();
 	}
 	
