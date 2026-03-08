@@ -4,7 +4,7 @@ A Java-based, interactive console application designed to educate users about cl
 
 ## 🌍 Overview
 
-This tool provides a personalized, menu-driven experience. As you navigate through the app, it tracks your profile, including your carbon footprint, your score on the climate equity quiz, and the conservation groups you have chosen to "join."
+This tool provides a personalized, menu-driven experience. As you navigate through the app, it tracks your profile, including your carbon footprint, your score on the climate equity quiz, and the conservation groups you have chosen to "join.". It runs as a command line app through the shell.
 
 ## ✨ Features
 
@@ -13,7 +13,7 @@ This tool provides a personalized, menu-driven experience. As you navigate throu
 * **Climate Projections `(p)`:** Provides scientific projections on global temperatures, precipitation patterns, methane emissions, and the thawing cryosphere (citing WMO and UNEP reports).
 * **Climate Equity Quiz `(e)`:** A 5-question interactive quiz highlighting the socioeconomic disparities and disproportionate impacts of climate change across different global demographics.
 * **Local Action & Groups `(j)`:** Learn about and simulate joining conservation groups like the Snohomish Conservation District, Adopt a Stream Foundation, and Earthwatch.
-* **Environmental Effects `(f)`:** Explore how climate change specifically impacts various ecosystems, including forests, oceans, deserts, and wetlands.
+* **Species Effects `(s)`:** Explore how climate change impacts specific animals in a variety of ecosystems.
 
 ## 🛠️ Prerequisites
 
@@ -49,7 +49,7 @@ Upon launching the application, you will be prompted to enter your name. After t
 | **p** or **project** | Projections | Read about future climate projections and statistics. |
 | **e** or **equity** | Equity Quiz | Test your knowledge on how climate change affects different demographics. |
 | **j** or **join** | Join Groups | View and "join" environmental conservation organizations. |
-| **f** or **effects** | Ecosystem Effects | Learn about the consequences of climate change on specific biomes. |
+| **s** or **species** | Species Effects | Learn about the consequences of climate change on specific species in different ecosystems. |
 | **h** or **help** | Help | Re-print the main menu and options. |
 | **x** or **exit** | Exit | Safely close the application. |
 
@@ -58,6 +58,8 @@ Upon launching the application, you will be prompted to enter your name. After t
 * `User` **Class:** Stores the session data, utilizing bitwise operations to efficiently track which groups the user has joined.
 * `Group` **Enum:** Safely stores the index and names of the available environmental groups.
 * `wrapText()` **Methods:** A custom text-formatting engine that automatically wraps text to fit an 80-character console width, complete with center or left-justified asterisk borders.
+* `MenuTests & TestResults` **Testing:** Unit test framework that collects test results in an array of objects and allows for easy summarization.
 
 ---
+
 
