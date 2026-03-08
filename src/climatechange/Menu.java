@@ -148,7 +148,7 @@ public class Menu {
 			"  (e) equity        - Learn about how inequitable climate change is",
 			"  (j) join          - Get a list of local groups for couseling, action or",
 			"                      information",
-			"  (s) species 		 - Learn about animals that are affected by climate change",
+			"  (s) species       - Learn about animals impacted by climate change",
 			"  (h) help          - View options menu",
 			"  (x) exit          - Exit the app"
 		);
