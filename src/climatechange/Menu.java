@@ -1,11 +1,14 @@
 package climatechange;
 import java.util.Scanner;
 public class Menu {
+	
 	private static User user;
 	private static final int POUNDS_PER_METRIC_TONNE = 2205;
 	private static final int POUNDS_PER_TREE = 2205;
-	private static final String END = String.valueOf("_").repeat(79);
+	// for separating blocks of text
+	private static final String END = String.valueOf("_").repeat(79); 
 	public static boolean usePause = true; // disable pauses if running unit tests
+	
 	// Local groups for join()
 	private static enum Group {
 		SCD(0, "Snohomish Conservation District"),
@@ -155,7 +158,7 @@ public class Menu {
 	}
 	
 
-	// Carbon footprint calculator
+	// Carbon footprint calculator based on user entered metrics
 	public static void personalImpact(Scanner scnr) {
 		String input;
 		final double TOO_BIG = 1E9;
@@ -528,6 +531,8 @@ public class Menu {
 				switch (response) {
 					case "d":
 					case "c":
+						// validate input in case question is true/false
+						// instead of multiple choice
 						if (i == 2) {
 							System.out.println("Invalid answer.");
 							System.out.println("Please answer with (a) or (b).\\n");
@@ -614,10 +619,11 @@ public class Menu {
 				System.out.println(g);
 			}
 			System.out.print("\n> ");
+			// use string for input to simplify unit tests and make exit case more
+			// flexible
 			input = scnr.next().toLowerCase();
 			scnr.nextLine(); // Clears buffer
 			// Get group Enum based on input
-
 			switch (input) {
 				case "1":
 					group = Group.SCD;
@@ -689,6 +695,9 @@ public class Menu {
 	        "Tundra",
 	        "Wetlands"
 	    };
+	    
+	    // Array of species 3 for each ecosystem in the same order as the 
+	    // ecosystems i.e. ecosystem[0] corresponds to affectedSpecies 0,1,2
 	    String[] affectedSpecies = {
 				"""
 						American Pika (Ochotona princeps): These small mammals are highly sensitive to
@@ -815,12 +824,13 @@ public class Menu {
 			input = scnr.next().toLowerCase();
 			scnr.nextLine(); // Clears buffer
 			System.out.print("\n");
-			
+			// use string for input to simplify unit tests and make exit case more
+			// flexible
 			switch (input) {
 				case "1","2","3","4","5","6":
 					
+					// convert to int to access array
 					inputInt = Integer.parseInt(input) -1;
-				System.out.println(input+ " " + inputInt);
 					wrapText("center", ecosystems[inputInt]);
 					// each ecosystem has 3 species, loop to get all of them
 					// not the cleanest thing
@@ -841,13 +851,16 @@ public class Menu {
 	    
     }
 	
-	public static void main(String[] args) {
-		// use main as a wrapper to facilitate unit testing
+	// use main as a wrapper to facilitate unit testing
+	// allows us to pass a scnr directly to functions rather than redirect input
+	// from System.in
+	public static void main(String[] args) {		
 		Scanner scnr = new Scanner(System.in);
 		runMenu(scnr);
 		
 	}
 	
+	// Main menu 
 	public static void runMenu(Scanner scnr) {
 		String input;
 		
