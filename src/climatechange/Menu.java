@@ -147,10 +147,8 @@ public class Menu {
 		);
 	}
 	
-	// TODO
+	// Carbon footprint calculator
 	public static void personalImpact() {
-		System.out.println("TO DO: add code to ask for user info and calculate impact, tell them how many trees or plankton");
-		System.out.println("are required to offest");
 		String input;
 		double electric = 0, gas = 0, oil = 0;
 		double carMileage = 0;
@@ -300,6 +298,7 @@ public class Menu {
 		printOptions();
 	}
 	
+	// Future projections
 	public static void project() {
 		final String END = String.valueOf("_").repeat(79);
 		int input;
@@ -512,7 +511,7 @@ public class Menu {
 				}
 			} while (invalid);
 		}
-		// Could add different response based on the score
+
 		user.percentage = 100.0 * (correct/5.0);
 		System.out.println("You got " + user.percentage + "% of questions correct!\n");
 		printOptions();
@@ -615,9 +614,8 @@ public class Menu {
 		}
 	}
 	
-	// TODO effects of climate change of trees, animals, choose from menu options to get more information.
+	// Environmental effects to different ecosystems
 	public static void environmentalEffects() {
-		//Scanner input = new Scanner(System.in);
         // Array of ecosystem types
 	    String[] ecosystems = {
 	        "Forest",
