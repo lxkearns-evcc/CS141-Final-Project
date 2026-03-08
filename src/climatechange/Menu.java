@@ -1,8 +1,9 @@
 package climatechange;
+
 import java.util.Scanner;
 public class Menu {
 	// Input scanner
-	private static Scanner scnr = new Scanner(System.in);
+	
 	
 	// Support method for wrapText()
 	// Allows handling of texts longer than 75 characters
@@ -67,17 +68,17 @@ public class Menu {
 	}
 	
 	// TODO
-	public static void personalImpact() {
+	public static void personalImpact(Scanner scnr) {
 		System.out.println("TO DO: add code to ask for user info and calculate impact, tell them how many trees or plankton");
 		System.out.println("are required to offest");
 	}
 	
 	// TODO
-	public static void project() {
+	public static void project(Scanner scnr) {
 		System.out.println("TO DO: add projections for various environmental things such as sea level, ocean temp etc.");
 	}
 	
-	public static void equity() {
+	public static void equity(Scanner scnr) {
 		String[] questions = {
 			"""
 			1. What demographic is responsible for the largest share of global greenhouse gas emissions?	
@@ -119,7 +120,7 @@ public class Menu {
 		double percentage;
 		String response;
 		
-		wrapText("center","Welcome to the climate change equity quiz (5 questions)!","Answer with a,b,c or d");
+		wrapText("center","Welcome to the climate change equity quiz (5 questions)!","Answer with a,b,c or d. Press e to exit.");
 		
 		//Did not test thoroughly test this loop, only used lowercase letters
 		for (int i = 0; i < 5; i++) {			
@@ -151,7 +152,8 @@ public class Menu {
 	}
 	
 	// TODO Join
-	public static void join() {
+	// Maybe should have something to simulate joining like in the example
+	public static void join(Scanner scnr) {
 		System.out.println("TO DO: prompt user for the kind of group they want to join and then give a few local or online options");
 		int input;
 		String[] groups = {
@@ -213,7 +215,7 @@ public class Menu {
 	}
 	
 	// TODO effects of climate change of trees, animals, choose from menu options to get more information.
-	public static void environmentalEffects() {
+	public static void environmentalEffects(Scanner scnr) {
 		//Scanner input = new Scanner(System.in);
         // Array of ecosystem types
 	    String[] ecosystems = {
@@ -259,8 +261,11 @@ public class Menu {
            }
 	    }
     }
-	
-	public static void main(String[] args) {
+	public static void main() {
+		Scanner scnr = new Scanner(System.in);
+		runMenu(scnr);
+	}
+	public static void runMenu(Scanner scnr) {
 		String input;
 		
 		wrapText(
@@ -274,26 +279,27 @@ public class Menu {
 		while (true) {
 			System.out.print("\n>");
 			input = scnr.nextLine().trim().toLowerCase();
+			System.out.println(input);
 			switch (input) {
 				case "impact":
 				case "i":
-					personalImpact();
+					personalImpact(scnr);
 					break;
 				case "project":
 				case "p":
-					project();
+					project(scnr);
 					break;
 				case "equity":
 				case "e":
-					equity();
+					equity(scnr);
 					break;
 				case "join":
 				case "j":
-					join();
+					join(scnr);
 					break;
 				case "effects":
 				case "f":
-					environmentalEffects();
+					environmentalEffects(scnr);
 					break;
 				case "help":
 				case "h":
