@@ -1,5 +1,4 @@
 package climatechange;
-
 import java.util.Scanner;
 public class Menu {
 	// Input scanner
@@ -127,7 +126,7 @@ public class Menu {
 		System.out.println(topBottomWrap + '\n');
 	}
 	
-	// Main menu
+	// Prints the main menu options
 	public static void printOptions() {
 		user.header();
 		
@@ -424,6 +423,7 @@ public class Menu {
 	}
 	
 	// Equity method
+	// Shares information about the inequity of climate change using a short quiz
 	public static void equity(Scanner scnr) {
 
 		String[] questions = {
@@ -523,6 +523,7 @@ public class Menu {
 	}
 
 	// Join groups method
+	// This shows a few local and online conservation groups and simulates joining
 	public static void join(Scanner scnr) {
 
 		int input;
@@ -670,6 +671,7 @@ public class Menu {
 	    
     }
 	public static void main(String[] args) {
+		// use main as a wrapper to facilitate unit testing
 		System.out.print("MAIN");
 		Scanner scnr = new Scanner(System.in);
 		runMenu(scnr);
