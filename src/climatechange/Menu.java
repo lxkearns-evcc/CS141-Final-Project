@@ -1,7 +1,6 @@
 package climatechange;
 import java.util.Scanner;
 public class Menu {
-	// Input scanner
 	private static User user;
 	private static final int POUNDS_PER_METRIC_TONNE = 2205;
 	private static final int POUNDS_PER_TREE = 2205;
@@ -114,7 +113,14 @@ public class Menu {
 				break;
 		}
 	}
-		
+	private static void pause() {
+		try {
+			Thread.sleep(5000);
+		}
+		catch (InterruptedException ex) {
+			Thread.currentThread().interrupt();
+		}
+	}
 	// Wraps text in * chars and centers or left justifies
 	public static void wrapText(String justify, String... text) {
 		String topBottomWrap = String.valueOf("* ").repeat(39) + "*";
@@ -150,11 +156,11 @@ public class Menu {
 	// Carbon footprint calculator
 	public static void personalImpact(Scanner scnr) {
 		String input;
+		final double TOO_BIG = 1E9;
 		double electric = 0, gas = 0, oil = 0;
 		double carMileage = 0;
 		int shortFlight = 0, longFlight = 0;
 		boolean paperRecycle = false, metalRecycle = false;
-		boolean loop = true;
 		String[] questions = {
 			"What is your monthly electric bill (in USD)?",
 			"What is your monthly gas bill (in USD)?",
@@ -172,13 +178,14 @@ public class Menu {
 		Answer eight questions about your lifestyle and see your personal carbon footprint.
 		Type (s) to start or (x) to exit.""");
 		
+		boolean loop = true;
 		while (loop) {
 			System.out.print("\n> ");
 			input = scnr.next().toLowerCase();
 			scnr.nextLine(); // Clears buffer
 			switch (input) {
 				case "s", "start":
-					loop = false;
+					loop = false; // Loop exit point
 					break;
 				case "x", "exit":
 					System.out.println("Exiting Personal Impact...\n");
@@ -191,50 +198,70 @@ public class Menu {
 		
 		for (int i = 0; i < questions.length; i++) {
 			do {
-				loop = false;
+				loop = false; // Error reset, prevents looping when input is valid
 				System.out.println("\nType (b) to go back or (x) to exit.\n");
 				System.out.println((i + 1) + ". " + questions[i]);
 				System.out.print("> ");
 				if ((i >= 0) && (i < 3)) {
-					System.out.print("$");
+					System.out.print("$"); // Adds USD unit for questions 1-3
 				}
 				input = scnr.next().toLowerCase();
 				scnr.nextLine(); // Clears buffer
 				
-				// regex to convert strings from scnr into int/double
+
+				// Variable assignment for each response
+				// Checks input to prevent exceptions
+				// Exits loop with continue
+
 				switch (i) {
 					case 0:
 						if (input.matches("^[0-9.]+$")) {
 							electric = Double.valueOf(input);
+							if (electric > TOO_BIG) {
+								electric = 0;
+								break;
+							}
 							continue;
 						}
 						break;
 					case 1:
 						if (input.matches("^[0-9.]+$")) {
 							gas = Double.valueOf(input);
+							if (gas > TOO_BIG) {
+								gas = 0;
+								break;
+							}
 							continue;
 						}
 						break;
 					case 2:
 						if (input.matches("^[0-9.]+$")) {
 							oil = Double.valueOf(input);
+							if (oil > TOO_BIG) {
+								oil = 0;
+								break;
+							}
 							continue;
 						}
 						break;
 					case 3:
 						if (input.matches("^[0-9.]+$")) {
 							carMileage = Double.valueOf(input);
+							if (carMileage > TOO_BIG) {
+								carMileage = 0;
+								break;
+							}
 							continue;
 						}
 						break;
 					case 4:
-						if (input.matches("^\\d+$")) {
+						if (input.matches("^\\d+$") && (Double.valueOf(input) < TOO_BIG)) {
 							shortFlight = Integer.parseInt(input);
 							continue;
 						}
 						break;
 					case 5:
-						if (input.matches("^\\d+$")) {
+						if (input.matches("^\\d+$") && (Double.valueOf(input) < TOO_BIG)) {
 							longFlight = Integer.parseInt(input);
 							continue;
 						}
@@ -261,21 +288,27 @@ public class Menu {
 						break;
 				}
 				
+				// Responsible for invalid input, returning to previous questions,
+				// or returning to main menu
 				switch (input) {
 					case "b", "back":
+						// Case for no previous question, reiterates loop for valid response
 						if (i == 0) {
 							System.out.println("You are on the first question.");
 						}
+						// Go back one question, reiterates loop with previous index
 						else {
 							i--;
 						}
 						loop = true;
 						continue;
 					case "x", "exit":
+						// Returns to main menu
 						System.out.println("Exiting Personal Impact...\n");
 						printOptions();
 						return;
 					default:
+						// Invalid input, reiterates while loop for valid response
 						System.out.println("Invalid input.");
 						loop = true;
 						continue;
@@ -284,6 +317,7 @@ public class Menu {
 			
 		}
 		
+		// Carbon footprint formula
 		user.totalCBFP = (electric * 105) + (gas * 105) + (oil * 105) + (carMileage * 0.79) +
 						 (shortFlight * 1100) + (longFlight * 4400);
 		if (!paperRecycle) user.totalCBFP += 184;
@@ -296,7 +330,7 @@ public class Menu {
 			String.format("%,.1f", user.totalCBFP / POUNDS_PER_METRIC_TONNE) + " metric tons of carbon-dioxide equivalant per year.",
 			"An average of " + String.format("%,.0f", user.totalCBFP / POUNDS_PER_TREE) + " trees planted are required to offset this emission."
 		);
-		Thread.sleep(5000)
+
 		printOptions();
 	}
 	
@@ -573,6 +607,7 @@ public class Menu {
 			System.out.print("\n> ");
 			input = scnr.nextInt();
 			scnr.nextLine(); // Clears buffer
+			// Get group Enum based on input
 			switch (input) {
 				case 1:
 					group = Group.SCD;
@@ -603,9 +638,13 @@ public class Menu {
 				input = scnr.nextInt();
 				scnr.nextLine(); // Clears buffer
 				
+				// Valid responses, exits loop with break
 				if (input == 1) {
+					// Get bit at current index
 					int bit = 1 << group.index;
+					// Bit flip
 					user.groups ^= bit;
+					// Bit check for output response
 					if ((user.groups & bit) == 0) {
 						System.out.println("You have left " + group.name +".\n");
 					} else {
@@ -617,6 +656,7 @@ public class Menu {
 					break;
 				}
 				
+				// Invalid response, loop continues
 				System.out.println("Invalid option.");
 			}
 			
@@ -645,6 +685,7 @@ public class Menu {
 	        "Melting permafrost, declining polar wildlife populations",
 	        "Flooding, loss of bird habitats, water contamination"
         };
+    	
 	    int choice = 0;
 	    while (choice != (ecosystems.length + 1)) {
 	    	wrapText("center", "You are in Environmental Effects");
@@ -672,13 +713,14 @@ public class Menu {
 	    }
 	    
     }
+	
 	public static void main(String[] args) {
 		// use main as a wrapper to facilitate unit testing
-		System.out.print("MAIN");
 		Scanner scnr = new Scanner(System.in);
 		runMenu(scnr);
 		
 	}
+	
 	public static void runMenu(Scanner scnr) {
 		String input;
 		
@@ -699,28 +741,21 @@ public class Menu {
 			System.out.print("> ");
 			input = scnr.nextLine().trim().toLowerCase();
 
-			System.out.println(input);
 			switch (input) {
-				case "impact":
-				case "i":
+				case "i", "impact":
 					personalImpact(scnr);
 					break;
-				case "project":
-				case "p":
+				case "p", "project":
 					project(scnr);
 					break;
-				case "equity":
-				case "e":
+				case "e", "equity":
 					equity(scnr);
 					break;
-				case "join":
-				case "j":
+				case "j", "join":
 					join(scnr);
 					break;
-				case "effects":
-				case "f":
+				case "f", "effects":
 					environmentalEffects(scnr);
-
 					break;
 				case "h", "help":
 					printOptions();

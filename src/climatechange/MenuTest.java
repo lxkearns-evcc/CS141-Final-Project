@@ -68,8 +68,15 @@ public class MenuTest {
 		boolean passed = output.contains("Thanks for using the app, Goodbye test!");
 		String errorMsg = passed ? "" : "Did not find the goodbye message.";
 		return new TestResult("Immediate Exit Test",passed,errorMsg);
-		
 	}
+		
+
+	public static void mainMenuTest() {
+		Scanner testScnr  = new Scanner(System.in);		
+		Menu.runMenu(testScnr);
+
+	}
+	
 	public static void main(String[] args) {
 		int totalPassed = 0;
 		Menu.wrapText("left","Running Unit Tests");
@@ -90,5 +97,4 @@ public class MenuTest {
 				));
 
 	}
-	
 }
