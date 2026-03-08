@@ -1,5 +1,6 @@
 package climatechange;
 
+// Class for storing test results to simplify summary once tests finish
 public class TestResult {
     private String testName;
     private boolean passed;

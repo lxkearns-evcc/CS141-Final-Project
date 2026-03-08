@@ -4,7 +4,8 @@ public class Menu {
 	private static User user;
 	private static final int POUNDS_PER_METRIC_TONNE = 2205;
 	private static final int POUNDS_PER_TREE = 2205;
-	
+	private static final String END = String.valueOf("_").repeat(79);
+	public static boolean usePause = true; // disable pauses if running unit tests
 	// Local groups for join()
 	private static enum Group {
 		SCD(0, "Snohomish Conservation District"),
@@ -113,9 +114,11 @@ public class Menu {
 				break;
 		}
 	}
+	
+	// Give user some time to read results
 	private static void pause() {
 		try {
-			Thread.sleep(0);
+			Thread.sleep(5000);
 		}
 		catch (InterruptedException ex) {
 			Thread.currentThread().interrupt();
@@ -145,8 +148,7 @@ public class Menu {
 			"  (e) equity        - Learn about how inequitable climate change is",
 			"  (j) join          - Get a list of local groups for couseling, action or",
 			"                      information",
-			"  (f) environmental - Learn about climate change and how it affected",
-			"      effects         some environments",
+			"  (s) species 		 - Learn about animals that are affected by climate change",
 			"  (h) help          - View options menu",
 			"  (x) exit          - Exit the app"
 		);
@@ -330,14 +332,14 @@ public class Menu {
 			String.format("%,.1f", user.totalCBFP / POUNDS_PER_METRIC_TONNE) + " metric tons of carbon-dioxide equivalant per year.",
 			"An average of " + String.format("%,.0f", user.totalCBFP / POUNDS_PER_TREE) + " trees planted are required to offset this emission."
 		);
-		pause();
+		if (usePause) pause();
 		printOptions();
 	}
 	
-	// Future projections
-	public static void project(Scanner scnr) {
-		final String END = String.valueOf("_").repeat(79);
-		int input;
+	// Future projections of global effects of climate change
+	public static void globalProjection(Scanner scnr) {
+		String input;
+		int inputInt;
 		String[] categories = {
 			"Global Mean Temperatures",
 			"Regional Temperatures",
@@ -439,16 +441,19 @@ public class Menu {
 			System.out.println("6. EXIT");
 		
 			System.out.print("\n> ");
-			input = scnr.nextInt();
+			input = scnr.next().toLowerCase();
 			scnr.nextLine(); // Clears buffer
 			System.out.print("\n");
 			
 			switch (input) {
-				case 1, 2, 3, 4, 5:
-					wrapText("center", categories[input - 1]);
-					System.out.println(description[input - 1] + END + "\n");
+				case "1","2","3","4","5":
+					inputInt = Integer.parseInt(input);
+					wrapText("center", categories[inputInt - 1]);
+					System.out.println(description[inputInt - 1] + END + "\n");
 					break;
-				case 6:
+				case "6":
+				case "x":
+				case "exit":
 					System.out.println("Exiting Climate Projections...");
 					printOptions();
 					return;
@@ -558,7 +563,7 @@ public class Menu {
 
 		user.percentage = 100.0 * (correct/5.0);
 		System.out.println("You got " + user.percentage + "% of questions correct!\n");
-		pause();
+		if (usePause) pause();
 		printOptions();
 	}
 
@@ -671,10 +676,11 @@ public class Menu {
 	}
 	
 
-	// Environmental effects to different ecosystems
-	public static void environmentalEffects(Scanner scnr) {
-
-        // Array of ecosystem types
+	// Species in specific biomes that are heavily effected by climate change
+	public static void speciesEffects(Scanner scnr) {
+		String input;
+		int inputInt;
+        // Array of ecosystems types
 	    String[] ecosystems = {
 	        "Forest",
 	        "Ocean",
@@ -683,41 +689,155 @@ public class Menu {
 	        "Tundra",
 	        "Wetlands"
 	    };
-	    // Array of what is affected in each Ecosystem. 
-    	String[] affectedComponents = {
-	        "Tree die-off, increased wildfires, habitat loss for animals",
-	        "Coral bleaching, rising sea levels, marine species migration",
-	        "Water scarcity, species extinction, extreme heat impact",
-	        "Loss of grazing species, drought damage, soil degradation",
-	        "Melting permafrost, declining polar wildlife populations",
-	        "Flooding, loss of bird habitats, water contamination"
-        };
-    	
-	    int choice = 0;
-	    while (choice != (ecosystems.length + 1)) {
-	    	wrapText("center", "You are in Environmental Effects");
-	    	System.out.println("Select an ecosystem to learn more:");
-	    	for (int i = 1; i <= ecosystems.length; i++) {
-	    		System.out.println((i) + ". " + ecosystems[i - 1]);
-	    	}
-	    	System.out.println((ecosystems.length + 1) + ". EXIT\n");
-	    	System.out.print("> ");
-	    	choice = scnr.nextInt();
-	    	scnr.nextLine();
+	    String[] affectedSpecies = {
+				"""
+						American Pika (Ochotona princeps): These small mammals are highly sensitive to
+						heat and can die if exposed to temperatures above 77°F (25°C). As their alpine
+						forest habitats warm, they are forced to migrate further up mountain slopes.
+						Eventually, they risk running out of elevation, leading to localized extinctions.""",
 
-	    	if ((choice >= 1) && (choice <= ecosystems.length)) {
-	    		System.out.println("\nEffects on " + ecosystems[choice - 1].toLowerCase() + ":");
-	    		System.out.println(affectedComponents[choice - 1] + "\n");
-	    	}
-	    	else if (choice == (ecosystems.length + 1)) {
-	    		System.out.println("Exiting Environmental Effects...\n");
-	    		printOptions();
-	    		break;
-           	}
-	    	else {
-	    		System.out.println("Invalid choice. Please try again.");
-           }
-	    }
+				"""
+						Koala (Phascolarctos cinereus): Elevated atmospheric CO2 levels reduce the
+						protein and nutrient content of eucalyptus leaves, their nearly exclusive food
+						source, leading to malnutrition. Additionally, the increasing frequency of
+						extreme, climate-driven bushfires directly destroys their populations and
+						habitats.""",
+
+				"""
+						Whitebark Pine (Pinus albicaulis): Historically, harsh winters kept mountain
+						pine beetle populations in check. Warmer winters now fail to kill off these
+						pests, allowing them to multiply rapidly and decimate these high-elevation
+						trees, which are crucial for snow retention and forest ecosystem stability.""",
+
+				"""
+						Staghorn Coral (Acropora cervicornis): Ocean warming causes coral to expel
+						their food-producing symbiotic algae (bleaching). Simultaneously, the ocean
+						absorbs excess CO2, lowering its pH. This acidification strips the water of
+						the carbonate ions the coral needs to build and maintain its calcium carbonate
+						skeleton.""",
+
+				"""
+						Antarctic Krill (Euphausia superba): Krill rely on the undersides of sea ice
+						to shelter and feed their larvae. The rapid decline of winter sea ice
+						drastically reduces their reproductive success and survival rates, threatening
+						the entire marine food web (including whales and penguins) that depends on them.""",
+
+				"""
+						Loggerhead Sea Turtle (Caretta caretta): Sea turtles rely on temperature-
+						dependent sex determination; the temperature of the sand incubates the eggs
+						and determines the hatchlings' sex. Unusually hot sand produces overwhelmingly
+						female populations, skewing demographics. Furthermore, sea-level rise and
+						severe storms erode their critical nesting beaches.""",
+
+				"""
+						Joshua Tree (Yucca brevifolia): Prolonged droughts reduce the survival rates
+						of vulnerable seedlings. Furthermore, warming temperatures are shrinking the
+						habitable range of the yucca moth—the tree's sole pollinator—severely
+						threatening the plant's ability to reproduce.""",
+
+				"""
+						Desert Tortoise (Gopherus agassizii): Prolonged, severe droughts reduce the
+						bloom of specific spring wildflowers these tortoises need to eat to build up
+						water and fat reserves, leading to widespread dehydration and starvation.""",
+
+				"""
+						Saguaro Cactus (Carnegiea gigantea): Changing precipitation patterns encourage
+						the spread of invasive, highly flammable buffelgrass. This grass introduces
+						intense, fast-moving wildfires to the ecosystem. Because saguaros did not
+						evolve with fire, they possess no natural defenses and are easily killed by
+						the blazes.""",
+
+				"""
+						Monarch Butterfly (Danaus plexippus): Monarchs rely on environmental
+						temperature cues to trigger their migrations. Erratic weather disrupts this
+						timeline, while extreme heat and droughts destroy milkweed—the exclusive food
+						source for their caterpillars—along their migration routes.""",
+
+				"""
+						Saiga Antelope (Saiga tatarica): Anomalous heat waves combined with high
+						humidity events have been shown to trigger naturally occurring, normally
+						harmless respiratory bacteria in the antelopes' tonsils to become lethal,
+						causing sudden mass die-offs of hundreds of thousands of animals.""",
+
+				"""
+						Greater Sage-Grouse (Centrocercus urophasianus): Warming temperatures favor
+						the aggressive spread of invasive cheatgrass. This outcompetes native flora
+						and drastically increases the frequency of wildfires, destroying the
+						slow-growing sagebrush these birds absolutely require for cover and food.""",
+
+				"""
+						Polar Bear (Ursus maritimus): Polar bears rely almost exclusively on sea ice
+						as a platform to hunt seals. Because the ice is freezing later in the fall and
+						melting earlier in the spring, their hunting season is severely shortened,
+						causing starvation and reproductive failure.""",
+
+				"""
+						Arctic Fox (Vulpes lagopus): As the tundra warms, it is slowly giving way to
+						boreal scrublands. This allows the larger, more aggressive red fox to expand
+						its range northward, outcompeting and directly preying upon the Arctic fox.""",
+
+				"""
+						Caribou (Rangifer tarandus): Warmer winter temperatures are causing rain to
+						fall instead of snow. When temperatures drop again, this rain freezes into a
+						rock-hard layer of solid ice over the tundra, preventing caribou from digging
+						through to reach the lichens they need to survive the winter.""",
+
+				"""
+						Bog Turtle (Glyptemys muhlenbergii): Altered hydrology threatens this highly
+						specialized species. Intense, sudden storms can flood and drown their shallow
+						nests, while prolonged droughts dry up the muddy, spring-fed bogs they rely
+						on to regulate their temperature and forage.""",
+
+				"""
+						Saltmarsh Sparrow (Ammospiza caudacuta): These birds nest exclusively in
+						coastal tidal marshes just inches above the high-tide line. Accelerating
+						sea-level rise increases the frequency of exceptionally high spring tides,
+						which completely flood their nests and drown the chicks before they can learn
+						to fly.""",
+
+				"""
+						Mangrove Trees (Rhizophora spp.): While mangroves naturally build land by
+						trapping sediment in their roots, the current, accelerating rate of sea-level
+						rise in some coastal regions is outpacing their ability to accumulate soil.
+						This eventually inundates and drowns their specialized root systems.""" };
+
+	    wrapText("center", "Welcome to Species Effects");
+    			
+	    while (true) {
+			System.out.println("Select an ecosystem to learn some animals that are adversely impacted\n" +
+	    "by climate change (enter a number)");
+			for (int i = 1; i <= ecosystems.length; i++) {
+				System.out.println(i + ". " + ecosystems[i - 1]);
+			}
+			System.out.println("7. EXIT");
+		
+			System.out.print("\n> ");
+			input = scnr.next().toLowerCase();
+			scnr.nextLine(); // Clears buffer
+			System.out.print("\n");
+			
+			switch (input) {
+				case "1","2","3","4","5","6":
+					
+					inputInt = Integer.parseInt(input) -1;
+				System.out.println(input+ " " + inputInt);
+					wrapText("center", ecosystems[inputInt]);
+					// each ecosystem has 3 species, loop to get all of them
+					// not the cleanest thing
+					for (int j = inputInt*3; j < inputInt*3 + 3; j++) {
+						System.out.println(affectedSpecies[j] + "\n" + END);
+						}
+					break;
+				case "7":
+				case "x":
+				case "exit":
+					System.out.println("Exiting Climate Projections...");
+					printOptions();
+					return;
+				default:
+					System.out.println("Invalid input.");
+			}
+		}
 	    
     }
 	
@@ -753,7 +873,7 @@ public class Menu {
 					personalImpact(scnr);
 					break;
 				case "p", "project":
-					project(scnr);
+					globalProjection(scnr);
 					break;
 				case "e", "equity":
 					equity(scnr);
@@ -761,8 +881,8 @@ public class Menu {
 				case "j", "join":
 					join(scnr);
 					break;
-				case "f", "effects":
-					environmentalEffects(scnr);
+				case "s", "species":
+					speciesEffects(scnr);
 					break;
 				case "h", "help":
 					printOptions();

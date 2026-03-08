@@ -3,24 +3,30 @@ import java.util.Scanner;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+// Class for testing Menu class
 public class MenuTest {
-//	Menu menu = new Menu();
-	private static final int TEST_COUNT = 10;
+	
+	private static final int TEST_COUNT = 7;
 	private static PrintStream originalOut;
 	private static ByteArrayOutputStream capturedOutput;
+	
+	// redirect System.out so that it can captured for testing
 	public static void startOutputCapture() {
 		originalOut = System.out;
 		capturedOutput = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(capturedOutput));
 	}
+	
+	// replace custom output location with default one
 	public static String stopOutputCapture() {
 		System.setOut(originalOut);
 		return capturedOutput.toString();
 	}
+	
 	// Test immediate exit in main menu
 	public static TestResult immediateExitTest() {
 		startOutputCapture();
-		Scanner testScnr  = new Scanner("test\nx\n");		
+		Scanner testScnr  = new Scanner("test\nx\n");	
 		Menu.runMenu(testScnr);
 		String output = stopOutputCapture();
 		boolean passed = output.contains("Thanks for using the app, Goodbye test!");
@@ -31,8 +37,7 @@ public class MenuTest {
 	// Test main menu for a variety of bad inputs
 	public static TestResult garbageInputsMainMenu() {
 	
-		startOutputCapture();
-		
+		startOutputCapture();		
 		Scanner testScnr  = new Scanner("test\n1\n@\naeogij\n+\n{}\nx\n");		
 		Menu.runMenu(testScnr);
 		String output = stopOutputCapture();
@@ -46,7 +51,8 @@ public class MenuTest {
 		return new TestResult("Garbage Inputs Test",passed,errorMsg); 
 		
 	}
-	// test personalImpact method calculation
+	
+	// test personalImpact method calculation for correctness
 	public static TestResult personalImpactTest() {
 		
 		startOutputCapture();
@@ -89,7 +95,7 @@ public class MenuTest {
 	}
 	
 	// test group join function
-public static TestResult joinGroupTest() {
+	public static TestResult joinGroupTest() {
 		
 		startOutputCapture();
 		Scanner testScnr  = new Scanner(
@@ -104,29 +110,63 @@ public static TestResult joinGroupTest() {
 		String errorMsg = passed ? "" : "Did not join the correct group";
 		return new TestResult("Join Group Test",passed,errorMsg);
 	}
+	
+	// test projection function
+	public static TestResult globalProjectionTest() {
 		
-
-	public static void mainMenuTest() {
-		Scanner testScnr  = new Scanner(System.in);		
-		Menu.runMenu(testScnr);
-
-	}
+		startOutputCapture();
+		Scanner testScnr  = new Scanner(
+				"test\n"
+				+ "1\n"
+				+ "6\n");		
+		Menu.globalProjection(testScnr);
+		String output = stopOutputCapture();
+		boolean passed = output.contains("Global mean temperatures are likely to continue at or near record levels");
+		String errorMsg = passed ? "" : "Viewed the wrong projection";
+		return new TestResult("Global Projection Test",passed,errorMsg);
+	}		
+	
+	// test species function
+	public static TestResult speciesEffectsTest() {
+		
+		startOutputCapture();
+		Scanner testScnr  = new Scanner(
+				"test\n"
+				+ "1\n"
+				+ "x\n");		
+		Menu.speciesEffects(testScnr);
+		String output = stopOutputCapture();
+		boolean passed = output.contains("American Pika") && 
+				output.contains("Koala") &&
+				output.contains("Whitebark Pine");
+		String errorMsg = passed ? "" : "Wrong species";
+		return new TestResult("Species Effects Test",passed,errorMsg);
+	}	
 	
 	public static void main(String[] args) {
 		int totalPassed = 0;
+		Menu.usePause = false; // toggle off pausing
 		Menu.wrapText("left","Running Unit Tests");
+		
+		// Store TestResult objects in array
+		// Could consider use ArrayList or List so that sizing is more dynamic
 		TestResult[] testResults = new TestResult[TEST_COUNT];
 		testResults[0] = immediateExitTest();
 		testResults[1] = garbageInputsMainMenu();
 		testResults[2] = personalImpactTest();
 		testResults[3] = equityQuizTest();
 		testResults[4] = joinGroupTest();
+		testResults[5] = globalProjectionTest();
+		testResults[6] = speciesEffectsTest();
+		
 		for (TestResult result : testResults) {
 			result.print();
 			if (result.isPassed()) {
+				// increment passed tests as they finish
 				totalPassed++;
 			}
 		}
+		// Show test results
 		Menu.wrapText("left","Test Results",
 				"Total Tests: " + testResults.length + 
 				" | Passed: " + totalPassed  +
