@@ -600,10 +600,22 @@ public class Menu {
 			Are you ready to experience nature as you help protect it?
 			"""
 		};
-		String[] links = {
-			"https://snohomishcd.org/",
-			"https://www.streamkeeper.org/",
-			"https://earthwatch.org/"
+		String[] contact = {
+			"""
+				Webiste: https://snohomishcd.org/
+				Phone: (425) 335-5634
+				Email: outreach@snohomishcd.org
+				""",
+			"""
+				Website: https://www.streamkeeper.org/
+				Phone: (425)-316-8592
+				Email: aasf@streamkeeper.org
+				""",
+			"""
+				Website: https://earthwatch.org/
+				Phone: (800) 776-0188
+				Email: info@earthwatch.org
+				"""
 		};
 		
 		wrapText(
@@ -648,7 +660,7 @@ public class Menu {
 			
 			System.out.print("\n");
 			wrapText("center", group.name);
-			System.out.println(descriptions[group.index] + "\n\n" + links[group.index] + '\n');
+			System.out.println(descriptions[group.index] + "\n\n" + contact[group.index] + '\n');
 			
 			while (true) {
 				System.out.println("Type (1) to join or leave, or (0) to return.");
