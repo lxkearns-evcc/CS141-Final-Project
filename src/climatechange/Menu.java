@@ -129,7 +129,7 @@ public class Menu {
 				System.out.print(questions[i]); //newline is in question so don't use println
 				response = scnr.next().toLowerCase();
 				System.out.println(response);
-				if (response.equals("a") || response.equals("b") || response.equals("c") || response.equals("d")) {
+				if ("a".equals(response) || "b".equals(response) || "c".equals(response) || "d".equals(response)) {
 					if (response.equals(answers[i])) {
 						correct++;
 						System.out.println("Correct!");
@@ -138,6 +138,9 @@ public class Menu {
 						System.out.println("Incorrect, the right answer was " + answers[i]);
 					}
 					break;
+				}
+				else if ("e".equals(response)) {
+					return;
 				}
 				else {
 					System.out.println("All questions should be answered with a,b,c or d");
@@ -260,6 +263,7 @@ public class Menu {
 	    		System.out.println("Invalid choice. Please try again.");
            }
 	    }
+	    
     }
 	public static void main() {
 		Scanner scnr = new Scanner(System.in);
