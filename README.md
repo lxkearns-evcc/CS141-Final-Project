@@ -60,3 +60,4 @@ Upon launching the application, you will be prompted to enter your name. After t
 * `wrapText()` **Methods:** A custom text-formatting engine that automatically wraps text to fit an 80-character console width, complete with center or left-justified asterisk borders.
 
 ---
+
